@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofyan - Digital Persona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- COLOR PALETTE (EARTH TONES) --- */
+        :root {
+            --bg-body: #f5f2eb;
+            --bg-card: #ffffff;
+            --text-main: #4a3f35;
+            --text-muted: #8c7b6d;
+            --accent: #8c6b5d;
+            --border: #e3dbd1;
+            --tag-bg: #eadecd;
+            --btn-bg: #5c473c;
+            
+            --swot-s: #6b8e23;
+            --swot-w: #a55c45;
+            --swot-o: #c28e0e;
+            --swot-t: #8b5a2b;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 30px 25px;
+        }
+
+        /* --- HEADER & FOTO --- */
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .profile-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(92, 71, 60, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            color: var(--btn-bg);
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        /* --- EMAIL TEXT LINK --- */
+        .email-text {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            margin-bottom: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .email-text:hover {
+            color: var(--btn-bg);
+            text-decoration: underline;
+        }
+
+        /* --- STATUS BADGE --- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--tag-bg);
+            color: var(--btn-bg);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            gap: 6px;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+            cursor: pointer;
+        }
+
+        .status-badge:hover {
+            background: #dccab8;
+            transform: translateY(-2px);
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: block;
+            box-shadow: 0 0 0 3px rgba(140, 107, 93, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(140, 107, 93, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(140, 107, 93, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(140, 107, 93, 0); }
+        }
+
+        /* --- KONTEN BIODATA --- */
+        .section {
+            margin-bottom: 35px;
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(92, 71, 60, 0.04);
+            border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin: 0 0 15px 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section p {
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0 0 15px 0;
+            color: var(--text-main);
+        }
+        
+        .section p:last-child { margin-bottom: 0; }
+
+        /* --- TAGS --- */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: background 0.2s, transform 0.1s;
+            cursor: pointer; 
+            user-select: none; 
+        }
+        
+        .tag:hover { background: #dccab8; }
+        .tag:active { transform: scale(0.95); } 
+
+        /* --- ANNOYING FLOATING TEXT (DI-UPDATE) --- */
+        .floating-text {
+            position: fixed;
+            pointer-events: none; 
+            color: #4a3f35; 
+            font-weight: 700;
+            font-size: 15px;
+            z-index: 9999;
+            /* Animasi ditimpa dari JS durasinya, tapi pakai keyframes ini */
+            animation: annoyingFloat ease-out forwards;
+            text-shadow: 1px 1px 3px rgba(255,255,255,1);
+        }
+
+        /* Animasi dibikin shaking/zig-zag */
+        @keyframes annoyingFloat {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.5) rotate(0deg); }
+            15% { transform: translate(-15px, -15px) scale(1.1) rotate(-10deg); }
+            30% { transform: translate(15px, -30px) rotate(15deg); }
+            45% { transform: translate(-20px, -50px) rotate(-10deg); }
+            65% { transform: translate(20px, -70px) rotate(10deg); opacity: 0.9; }
+            85% { transform: translate(-15px, -90px) rotate(-5deg); opacity: 0.5; }
+            100% { opacity: 0; transform: translate(0, -120px) scale(1.3) rotate(0deg); }
+        }
+
+        /* --- FOCUS CARDS --- */
+        .focus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .focus-card {
+            display: block;
+            text-decoration: none;
+            background: #faf8f5;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            cursor: pointer;
+        }
+
+        .focus-card:hover {
+            background: var(--tag-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(92, 71, 60, 0.08);
+        }
+
+        .focus-card:active {
+            transform: scale(0.98);
+        }
+
+        .focus-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 15px;
+            color: var(--btn-bg);
+        }
+
+        .focus-card h4 {
+            margin: 12px 0 4px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .focus-card p {
+            font-size: 13px !important;
+            color: var(--text-muted) !important;
+            line-height: 1.5 !important;
+            margin: 0;
+        }
+
+        /* --- SWOT GRID --- */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .swot-item {
+            background: #faf8f5;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .swot-item h3 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .swot-item p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .s-title { color: var(--swot-s); }
+        .w-title { color: var(--swot-w); }
+        .o-title { color: var(--swot-o); }
+        .t-title { color: var(--swot-t); }
+
+        /* --- TOMBOL IG --- */
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--btn-bg);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: transform 0.2s, background 0.2s;
+            box-sizing: border-box;
+        }
+
+        .btn:hover { background-color: #4a3f35; }
+        .btn:active { transform: scale(0.96); }
+
+        /* --- WATERMARK GEMINI --- */
+        .watermark {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* --- ANIMASI NAMA MIRING --- */
+        .corner-badge {
+            position: fixed;
+            bottom: 40px;
+            right: -40px;
+            width: 300px;
+            background: var(--btn-bg); 
+            color: #fff;
+            transform: rotate(-12deg);
+            overflow: hidden;
+            padding: 8px 0;
+            box-shadow: 0 8px 20px rgba(92, 71, 60, 0.3);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .marquee {
+            display: flex;
+            width: 200%;
+            animation: scrollName 10s linear infinite;
+        }
+
+        .marquee span {
+            white-space: nowrap;
+            font-weight: 700;
+            font-style: oblique;
+            font-size: 14px;
+            letter-spacing: 1px;
+            padding-right: 15px;
+        }
+
+        @keyframes scrollName {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="foto-profil.jpg" alt="Foto Profil" class="profile-img">
+        <h1>Sofyan Dwika Priya Waskhita</h1>
+        <div class="subtitle">UGM '24 | Spatial Analyst | Future Entrepreneur</div>
+        
+        <a href="mailto:sofyandwikaa@gmail.com" class="email-text">sofyandwikaa@gmail.com</a>
+        
+        <br> 
+        <a href="https://maps.app.goo.gl/4roztMnwPvu7iP8bA" target="_blank" class="status-badge">Currently at: Berlin (Batas Ringroad rodok Ngidul)</a>
+    </div>
+
+    <div class="section">
+        <h2>About Me</h2>
+        <p>
+            Mahasiswa aktif tahun kedua sekaligus pengacara (pengangguran banyak acara) yang lagi coba merintis bisnis di sekitar UMY (cari aja kalo ketemu, masih coming soon soalnya).
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Current Focus</h2>
+        <div class="focus-list">
+            <a href="https://www.instagram.com/p/DYmamMck4Lv/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==" target="_blank" class="focus-card">
+                <h3>KKL 2 Sains Informasi Geografi</h3>
+                <p>as</p>
+                <h4>Updating RBI</h4>
+                <p>sebenernya cuma crosscheck aja land cover sama land use nya berubah apa engga, terus polygonnya di edit kalo berubah</p>
+                <h4>Acara</h4>
+                <p>acara tidur udah malem, besok bikin rundown</p>
+            </a>
+            
+            <a href="https://www.instagram.com/p/DWl2xEEkqlE/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==" target="_blank" class="focus-card">
+                <h3>Geography Study Club</h3>
+                <p>as</p>
+                <h4>Antroposphere</h4>
+                <p>Ikut yang lagi viral, lokasi kajian kita di deket NYIA (mau kabur, bye Indonesia) stay tuned aja</p>
+            </a>
+            
+            <a href="https://www.instagram.com/p/DWvls0SiRsx/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="focus-card">
+                <h3>UAS</h3>
+                <p>jgn ganggu uas gw, uts gw udah jelek</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Interests & Culture</h2>
+        <p><b>My Music Taste & Favorites Kesukaan Gw:</b></p>
+        <p>Bunnies, gw, hari hari dengerin cover ByJeans</p>
+        
+        <p style="margin-top: 10px;"><b>Role Model:</b></p>
+        <p>Pham Ngoc Han. My bini itu, bojoku semnagatku</p>
+
+        <div class="tags">
+            <span class="tag">☕ Coffee</span>
+            <span class="tag">🚴‍♂️ Hidup Sehat</span>
+            <span class="tag">🏋️ GYM (kl diajak mamat)</span>
+            <span class="tag">😹 Freaky Cat person</span>
+            <span class="tag">🏎️ Max Verstappen</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Software Used</h2>
+        <div class="tags">
+            <span class="tag">ArcGIS Pro</span>
+            <span class="tag">QGIS</span>
+            <span class="tag">Google Earth Engine</span>
+            <span class="tag">Leaflet & OpenLayers</span>
+            <span class="tag">HTML</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Personal SWOT Analysis</h2>
+        <div class="swot-grid">
+            <div class="swot-item">
+                <h3 class="s-title">Strengths</h3>
+                <p>Jujur, bertanggung jawab dan dapat diandalkan.</p>
+            </div>
+            <div class="swot-item">
+                <h3 class="w-title">Weaknesses</h3>
+                <p>gw boong soal strenght (becanda).</p>
+            </div>
+            <div class="swot-item">
+                <h3 class="o-title">Opportunities</h3>
+                <p>Bisa ngegabungin ilmu geografi spasial buat nentuin lokasi strategis bisnis gw wokwok.</p>
+            </div>
+            <div class="swot-item">
+                <h3 class="t-title">Threats</h3>
+                <p>I think our government is the real threat.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://instagram.com/sofyanwaskhita" class="btn" target="_blank">Connect on Instagram</a>
+    
+    <div class="watermark">✦ Powered by Google Gemini ✦</div>
+</div>
+
+<div class="corner-badge">
+    <div class="marquee">
+        <span>SOFYAN DWIKA PRIYA WASKHITA • SOFYAN DWIKA PRIYA WASKHITA • </span>
+        <span>SOFYAN DWIKA PRIYA WASKHITA • SOFYAN DWIKA PRIYA WASKHITA • </span>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const allTags = document.querySelectorAll('.tag');
+        
+        allTags.forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                const floatingText = document.createElement('span');
+                floatingText.classList.add('floating-text');
+                floatingText.innerText = 'nothing happen silly 😛';
+                
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                // Randomizer offset biar teks muncul nyebar (nggak ketumpuk di 1 titik)
+                // Angka nyebar antara -50px sampai +50px dari titik klik lu
+                const randomOffsetX = (Math.random() - 1.5) * 100;
+                const randomOffsetY = (Math.random() - 1.5) * 100;
+                
+                floatingText.style.left = `${x - 60 + randomOffsetX}px`; 
+                floatingText.style.top = `${y - 10 + randomOffsetY}px`;
+                
+                // Randomizer kecepatan biar ada yang naiknya cepet, ada yang lambat
+                // Durasi antara 1.5 detik sampai 3 detik
+                const randomDuration = 1.5 + Math.random() * 1.5;
+                floatingText.style.animationDuration = `${randomDuration}s`;
+                
+                document.body.appendChild(floatingText);
+                
+                // Hapus elemen berdasar durasi randomnya
+                setTimeout(() => {
+                    floatingText.remove();
+                }, randomDuration * 1000);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
