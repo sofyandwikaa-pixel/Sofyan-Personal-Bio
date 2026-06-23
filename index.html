@@ -8,7 +8,7 @@
     <style>
         /* --- COLOR PALETTE (EARTH TONES) --- */
         :root {
-            --bg-body: #f3efe6; /* Agak digelapin dikit biar tekstur kertasnya naik */
+            --bg-body: #f3efe6;
             --bg-card: #fdfbf7; 
             --text-main: #3d342b; 
             --text-muted: #7a6b5d;
@@ -39,9 +39,8 @@
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Bintik-bintik noise murni dari SVG tanpa file eksternal */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            pointer-events: none; /* Biar ga ngehalangin tombol pas diklik */
+            pointer-events: none;
             z-index: 9999;
         }
 
@@ -50,7 +49,7 @@
             margin: 0 auto;
             padding: 40px 25px;
             position: relative;
-            z-index: 1; /* Biar tetep di bawah tekstur kersas */
+            z-index: 1;
         }
 
         /* --- HEADER & FOTO --- */
@@ -59,7 +58,6 @@
         }
 
         .profile-img {
-            /* UKURAN FOTO DIJADIIN 1/3 (35%) */
             width: 35%; 
             min-width: 110px;
             aspect-ratio: 3/4;
@@ -68,7 +66,6 @@
             border: 3px solid var(--text-main);
             box-shadow: 5px 5px 0px var(--text-main);
             margin-bottom: 25px;
-            /* Efek sepia tipis biar nyatu sama tema retro */
             filter: sepia(0.2) contrast(1.1);
         }
 
@@ -353,7 +350,7 @@
             font-weight: 800;
         }
 
-        /* --- ANIMASI NAMA MIRING --- */
+        /* --- ANIMASI NAMA MIRING (KANAN BAWAH) --- */
         .corner-badge {
             position: fixed;
             bottom: 50px;
@@ -388,6 +385,33 @@
         @keyframes scrollName {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
+        }
+
+        /* --- SPINNING CIRCULAR BADGE (KIRI BAWAH) --- */
+        .circular-badge {
+            position: fixed;
+            bottom: 20vh;
+            left: -25px;
+            width: 120px;
+            height: 120px;
+            z-index: 1000;
+            pointer-events: none;
+            animation: spinCircle 10s linear infinite;
+        }
+
+        .circular-badge svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+        }
+
+        @keyframes spinCircle {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -431,28 +455,24 @@
                 <h4>Antroposphere</h4>
                 <p>Area kajian kita di sekitar NYIA, biar gampang kalau tiba-tiba butuh kabur dari Indonesia. Stay tuned.</p>
             </a>
-            
-            <a href="https://www.instagram.com/p/DWvls0SiRsx/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="focus-card">
-                <h3>UAS</h3>
-                <p>Do Not Disturb, Kargon lg fokus UAS</p>
-            </a>
         </div>
     </div>
 
     <div class="section">
         <h2>Interests & Culture</h2>
-        <p><b>Music</b></p>
-        <p>Certified Bunnies</p>
         
-        <p style="margin-top: 10px;"><b>Role Model:</b></p>
-        <p>Pham Ngoc Han, end of discussion.</p>
+        <p style="margin-bottom: 20px;">
+            A visual summary
+        </p>
 
-        <div class="tags">
-            <span class="tag">☕ Espresso & Manual Brew</span>
-            <span class="tag">🚴‍♂️ Sober And Active</span>
-            <span class="tag">🏋️ GYM (kl diajak mamat)</span>
-            <span class="tag">😹 Cat Person</span>
-            <span class="tag">🏎️ Simply Lovely</span>
+        <img src="kolase-opsi-a.jpg" alt="Sofyan's Interests Moodboard" style="width: 100%; border-radius: 4px; border: 3px solid var(--text-main); box-shadow: 4px 4px 0px var(--text-main);">
+        <p>
+        Cr: Pinterest
+        </p>
+        <div class="tags" style="margin-top: 20px;">
+            <span class="tag">🎵 Certified Bunnies</span>
+            <span class="tag">🏋️ GYM (sometimes)</span>
+            <span class="tag">🐱 Cat Person</span>
         </div>
     </div>
 
@@ -503,6 +523,17 @@
         <span>SOFYAN DWIKA PRIYA WASKHITA • SOFYAN DWIKA PRIYA WASKHITA • </span>
         <span>SOFYAN DWIKA PRIYA WASKHITA • SOFYAN DWIKA PRIYA WASKHITA • </span>
     </div>
+</div>
+
+<div class="circular-badge">
+    <svg viewBox="0 0 100 100">
+        <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+        <text>
+            <textPath href="#circlePath" startOffset="0%">
+                GET TO KNOW ME • GET TO KNOW ME • 
+            </textPath>
+        </text>
+    </svg>
 </div>
 
 <script>
